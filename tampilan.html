@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daftar Resep</title>
+  <style>
+    .recipe-card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px;
+      width: 300px;
+    }
+    .recipe-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .recipe-ingredients {
+      margin-bottom: 10px;
+    }
+    
+  </style>
+</head>
+<body>
+  <h1>Daftar Resep</h1>
+  <div id="recipe-container"></div>
+
+  <script>
+    const recipeContainer = document.getElementById('recipe-container');
+
+    // Ambil data resep dari server
+    fetch('http://localhost:8080/recipes')
+      .then(response => response.json())
+      .then(recipes => {
+        recipes.forEach(recipe => {
+          const recipeCard = document.createElement('div');
+          recipeCard.classList.add('recipe-card');
+
+          const recipeName = document.createElement('div');
+          recipeName.classList.add('recipe-name');
+          recipeName.textContent = recipe.Name;
+          recipeCard.appendChild(recipeName);
+
+          const recipeIngredients = document.createElement('div');
+          recipeIngredients.classList.add('recipe-ingredients');
+          recipeIngredients.textContent = `Ingredients: ${recipe.Ingredients}`;
+          recipeCard.appendChild(recipeIngredients);
+
+          const recipeInstructions = document.createElement('div');
+          recipeInstructions.classList.add('recipe-instructions');
+          recipeInstructions.textContent = `Instructions: ${recipe.Instructions}`;
+          recipeCard.appendChild(recipeInstructions);
+
+          recipeContainer.appendChild(recipeCard);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+  </script>
+</body>
+</html>
